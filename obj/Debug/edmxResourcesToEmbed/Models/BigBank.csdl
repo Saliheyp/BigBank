@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_BankProjectModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Hesap">
+    <Key>
+      <PropertyRef Name="hesapID" />
+    </Key>
+    <Property Name="hesapID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="musteriID" Type="Int32" Nullable="false" />
+    <Property Name="hesapNo" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="acilmaZamani" Type="DateTime" Precision="3" />
+    <Property Name="bakiye" Type="Decimal" Precision="12" Scale="2" />
+    <Property Name="aktiflik" Type="Boolean" />
+    <Property Name="ekNo" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Musteri" Relationship="Self.FK_Hesap_Musteri" FromRole="Hesap" ToRole="Musteri" />
+    <NavigationProperty Name="ParaTransferleri" Relationship="Self.FK_ParaTransferleri_Hesap" FromRole="Hesap" ToRole="ParaTransferleri" />
+  </EntityType>
+  <EntityType Name="Islemler">
+    <Key>
+      <PropertyRef Name="islemID" />
+    </Key>
+    <Property Name="islemID" Type="Int32" Nullable="false" />
+    <Property Name="islemTuru" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="ParaTransferleri" Relationship="Self.FK_ParaTransferleri_Islemler" FromRole="Islemler" ToRole="ParaTransferleri" />
+  </EntityType>
+  <EntityType Name="Musteri">
+    <Key>
+      <PropertyRef Name="musteriID" />
+    </Key>
+    <Property Name="musteriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="musteriNo" Type="String" MaxLength="9" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="tcKimlik" Type="String" MaxLength="11" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="ad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="soyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="sifre" Type="String" MaxLength="6" FixedLength="false" Unicode="true" />
+    <Property Name="dogumTarihi" Type="DateTime" Precision="3" />
+    <Property Name="telefon" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
+    <Property Name="eMail" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="adres" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Hesap" Relationship="Self.FK_Hesap_Musteri" FromRole="Musteri" ToRole="Hesap" />
+  </EntityType>
+  <EntityType Name="ParaTransferleri">
+    <Key>
+      <PropertyRef Name="TransferID" />
+    </Key>
+    <Property Name="TransferID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="aliciHesapNo" Type="String" MaxLength="13" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="gonderenHesapID" Type="Int32" Nullable="false" />
+    <Property Name="miktar" Type="Decimal" Precision="6" Scale="2" />
+    <Property Name="gonderimTarihi" Type="DateTime" Precision="3" />
+    <Property Name="islemID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Hesap" Relationship="Self.FK_ParaTransferleri_Hesap" FromRole="ParaTransferleri" ToRole="Hesap" />
+    <NavigationProperty Name="Islemler" Relationship="Self.FK_ParaTransferleri_Islemler" FromRole="ParaTransferleri" ToRole="Islemler" />
+  </EntityType>
+  <Association Name="FK_Hesap_Musteri">
+    <End Role="Musteri" Type="Self.Musteri" Multiplicity="1" />
+    <End Role="Hesap" Type="Self.Hesap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Musteri">
+        <PropertyRef Name="musteriID" />
+      </Principal>
+      <Dependent Role="Hesap">
+        <PropertyRef Name="musteriID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ParaTransferleri_Hesap">
+    <End Role="Hesap" Type="Self.Hesap" Multiplicity="1" />
+    <End Role="ParaTransferleri" Type="Self.ParaTransferleri" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hesap">
+        <PropertyRef Name="hesapID" />
+      </Principal>
+      <Dependent Role="ParaTransferleri">
+        <PropertyRef Name="gonderenHesapID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ParaTransferleri_Islemler">
+    <End Role="Islemler" Type="Self.Islemler" Multiplicity="1" />
+    <End Role="ParaTransferleri" Type="Self.ParaTransferleri" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Islemler">
+        <PropertyRef Name="islemID" />
+      </Principal>
+      <Dependent Role="ParaTransferleri">
+        <PropertyRef Name="islemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="db_BankProjectEntities1" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Hesap" EntityType="Self.Hesap" />
+    <EntitySet Name="Islemler" EntityType="Self.Islemler" />
+    <EntitySet Name="Musteri" EntityType="Self.Musteri" />
+    <EntitySet Name="ParaTransferleri" EntityType="Self.ParaTransferleri" />
+    <AssociationSet Name="FK_Hesap_Musteri" Association="Self.FK_Hesap_Musteri">
+      <End Role="Musteri" EntitySet="Musteri" />
+      <End Role="Hesap" EntitySet="Hesap" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ParaTransferleri_Hesap" Association="Self.FK_ParaTransferleri_Hesap">
+      <End Role="Hesap" EntitySet="Hesap" />
+      <End Role="ParaTransferleri" EntitySet="ParaTransferleri" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ParaTransferleri_Islemler" Association="Self.FK_ParaTransferleri_Islemler">
+      <End Role="Islemler" EntitySet="Islemler" />
+      <End Role="ParaTransferleri" EntitySet="ParaTransferleri" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_Deactivate">
+      <Parameter Name="id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_HesapOlustur">
+      <Parameter Name="tcKimlik" Mode="In" Type="String" />
+      <Parameter Name="bakiye" Mode="In" Type="Decimal" />
+      <Parameter Name="ekNo" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_moneyDrawInOut">
+      <Parameter Name="gonderenHesapNo" Mode="In" Type="String" />
+      <Parameter Name="tutar" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="sp_moneyTransfer">
+      <Parameter Name="gonderenHesapNo" Mode="In" Type="String" />
+      <Parameter Name="aliciHesapNo" Mode="In" Type="String" />
+      <Parameter Name="tutar" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="sp_payTheBill">
+      <Parameter Name="musteriHesapNo" Mode="In" Type="String" />
+      <Parameter Name="tutar" Mode="In" Type="Decimal" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_update">
+      <Parameter Name="tc" Mode="In" Type="String" />
+      <Parameter Name="ad" Mode="In" Type="String" />
+      <Parameter Name="soyad" Mode="In" Type="String" />
+      <Parameter Name="sif" Mode="In" Type="String" />
+      <Parameter Name="dgmT" Mode="In" Type="DateTime" />
+      <Parameter Name="tel" Mode="In" Type="String" />
+      <Parameter Name="e" Mode="In" Type="String" />
+      <Parameter Name="adres" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <EntitySet Name="ExceptionLog" EntityType="db_BankProjectModel.ExceptionLog" />
+  </EntityContainer>
+  <EntityType Name="ExceptionLog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="detailDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="eventTime" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
+  </EntityType>
+</Schema>

@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Ana Sayfa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .resimKapsayici {
+        position: relative
+    }
+
+    .resimYazisi {
+        position: absolute;
+        left: 10px;
+        top: 5px;
+    }
+</style>
+<div>
+    <div>
+        <section class="panel" style="margin-left:40px; margin-top:90px;">
+            <header class="panel-heading" style="text-align:center;">
+                ANASAYFA
+            </header>
+            <div class="panel-body" style="text-align:center; vertical-align:middle; align-items:center; justify-content:center">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @id = "frmIndex" }))
+                {
+                    @Html.AntiForgeryToken()
+
+
+                    <div class="form-group" style="display:inline">
+                        <div style="display:inline; ">
+                            <label style="float:left;">Sayın, &nbsp;</label>
+                            <p style="float:left;"> @ViewBag.Message</p>
+                            <label style="float:left;">&nbsp; Hoşgeldiniz</label>
+                        </div>
+                    </div>
+                    <br />
+                    <div class="form-group" style="display:inline">
+                        <div class="resimKapsayici" style="display:inline; right:100px;">
+                            <img style="width:200px; height:200px;" src="~/img/varlıklarım.jpg" />
+                            <label class="resimYazisi" style="left:70px;">Varlıklarım</label>
+                            <br />
+                            <label class="resimYazisi" style="left:90px; top:30px;">@ViewBag.value</label>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </section>
+        @if (ViewBag.Message2 != null && ViewBag.Counter==1)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message2")
+                    }
+            </script>
+        }
+    </div>
+</div>

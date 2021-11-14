@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="db_BankProjectModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ExceptionLog">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="detailDescription" Type="nvarchar" MaxLength="255" />
+    <Property Name="eventTime" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Hesap">
+    <Key>
+      <PropertyRef Name="hesapID" />
+    </Key>
+    <Property Name="hesapID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="musteriID" Type="int" Nullable="false" />
+    <Property Name="hesapNo" Type="nvarchar" MaxLength="13" Nullable="false" />
+    <Property Name="acilmaZamani" Type="datetime" />
+    <Property Name="bakiye" Type="decimal" Precision="12" Scale="2" />
+    <Property Name="aktiflik" Type="bit" />
+    <Property Name="ekNo" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Islemler">
+    <Key>
+      <PropertyRef Name="islemID" />
+    </Key>
+    <Property Name="islemID" Type="int" Nullable="false" />
+    <Property Name="islemTuru" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="Musteri">
+    <Key>
+      <PropertyRef Name="musteriID" />
+    </Key>
+    <Property Name="musteriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="musteriNo" Type="nvarchar" MaxLength="9" Nullable="false" />
+    <Property Name="tcKimlik" Type="nvarchar" MaxLength="11" Nullable="false" />
+    <Property Name="ad" Type="nvarchar" MaxLength="50" />
+    <Property Name="soyad" Type="nvarchar" MaxLength="50" />
+    <Property Name="sifre" Type="nvarchar" MaxLength="6" />
+    <Property Name="dogumTarihi" Type="datetime" />
+    <Property Name="telefon" Type="nvarchar" MaxLength="13" />
+    <Property Name="eMail" Type="nvarchar" MaxLength="50" />
+    <Property Name="adres" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="ParaTransferleri">
+    <Key>
+      <PropertyRef Name="TransferID" />
+    </Key>
+    <Property Name="TransferID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="aliciHesapNo" Type="nvarchar" MaxLength="13" Nullable="false" />
+    <Property Name="gonderenHesapID" Type="int" Nullable="false" />
+    <Property Name="miktar" Type="decimal" Precision="6" Scale="2" />
+    <Property Name="gonderimTarihi" Type="datetime" />
+    <Property Name="islemID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Hesap_Musteri">
+    <End Role="Musteri" Type="Self.Musteri" Multiplicity="1" />
+    <End Role="Hesap" Type="Self.Hesap" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Musteri">
+        <PropertyRef Name="musteriID" />
+      </Principal>
+      <Dependent Role="Hesap">
+        <PropertyRef Name="musteriID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ParaTransferleri_Hesap">
+    <End Role="Hesap" Type="Self.Hesap" Multiplicity="1" />
+    <End Role="ParaTransferleri" Type="Self.ParaTransferleri" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hesap">
+        <PropertyRef Name="hesapID" />
+      </Principal>
+      <Dependent Role="ParaTransferleri">
+        <PropertyRef Name="gonderenHesapID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ParaTransferleri_Islemler">
+    <End Role="Islemler" Type="Self.Islemler" Multiplicity="1" />
+    <End Role="ParaTransferleri" Type="Self.ParaTransferleri" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Islemler">
+        <PropertyRef Name="islemID" />
+      </Principal>
+      <Dependent Role="ParaTransferleri">
+        <PropertyRef Name="islemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_Deactivate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_HesapOlustur" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="tcKimlik" Type="nvarchar" Mode="In" />
+    <Parameter Name="bakiye" Type="decimal" Mode="In" />
+    <Parameter Name="ekNo" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_moneyDrawInOut" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="gonderenHesapNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="tutar" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="sp_moneyTransfer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="gonderenHesapNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="aliciHesapNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="tutar" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="sp_payTheBill" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="musteriHesapNo" Type="nvarchar" Mode="In" />
+    <Parameter Name="tutar" Type="decimal" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="tc" Type="nvarchar" Mode="In" />
+    <Parameter Name="ad" Type="nvarchar" Mode="In" />
+    <Parameter Name="soyad" Type="nvarchar" Mode="In" />
+    <Parameter Name="sif" Type="nvarchar" Mode="In" />
+    <Parameter Name="dgmT" Type="datetime" Mode="In" />
+    <Parameter Name="tel" Type="nvarchar" Mode="In" />
+    <Parameter Name="e" Type="nvarchar" Mode="In" />
+    <Parameter Name="adres" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="db_BankProjectModelStoreContainer">
+    <EntitySet Name="ExceptionLog" EntityType="Self.ExceptionLog" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Hesap" EntityType="Self.Hesap" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Islemler" EntityType="Self.Islemler" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Musteri" EntityType="Self.Musteri" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ParaTransferleri" EntityType="Self.ParaTransferleri" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Hesap_Musteri" Association="Self.FK_Hesap_Musteri">
+      <End Role="Musteri" EntitySet="Musteri" />
+      <End Role="Hesap" EntitySet="Hesap" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ParaTransferleri_Hesap" Association="Self.FK_ParaTransferleri_Hesap">
+      <End Role="Hesap" EntitySet="Hesap" />
+      <End Role="ParaTransferleri" EntitySet="ParaTransferleri" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ParaTransferleri_Islemler" Association="Self.FK_ParaTransferleri_Islemler">
+      <End Role="Islemler" EntitySet="Islemler" />
+      <End Role="ParaTransferleri" EntitySet="ParaTransferleri" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

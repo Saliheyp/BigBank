@@ -1,0 +1,68 @@
+﻿@using MvcBigBank.Models
+@model Musteri
+
+@{
+    ViewBag.Title = "Giriş Yap";
+    Layout = "~/Views/Shared/_LandingPageLayout.cshtml";
+}
+
+    <div class="login-form">
+        <div class="login-wrap">
+            @using (Html.BeginForm("Login", "Home", FormMethod.Post, new { @id = "frmLogin" }))
+            {
+                @Html.AntiForgeryToken()
+
+
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+                <div class="loginImage"><img src="~/img/BigBankImg.png" /><br> <a class="img-text"> BIG BANK </a></div>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon_profile"></i></span>
+                    @Html.TextBoxFor(model => model.tcKimlik, new { @type = "text", @placeholder = "TC Kimlik Numaranızı Giriniz ", @class = "form-control", @onkeypress = "return event.charCode >=48 && event.charCode <=57", @maxlength = "11", @minlength = "11" })
+                    @Html.ValidationMessageFor(model => model.tcKimlik, "", new { @class = "text-danger" })
+                </div>
+
+
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="icon_key_alt"></i></span>
+                    @Html.PasswordFor(model => model.sifre, new { @class = "form-control", @type = "password", @placeholder = "Şifrenizi Giriniz ", @maxlength = "6", @pattern = ".{6}" })
+                    @Html.ValidationMessageFor(model => model.sifre, "", new { @class = "text-danger" })
+
+                </div>
+
+                <input type="submit" value="Giris Yap" class="btn btn-primary btn-lg btn-block btn-margin-top" style="background-color:#004e95;" />
+                <a href="~/Home/Register" class="btn btn-primary btn-lg btn-block" style="background-color:#004e95; color:white !important;">Kayıt Ol</a>
+            }
+
+            @if (ViewBag.Message != null)
+            {
+                <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message")
+                    }
+                </script>
+            }
+
+            @if (ViewBag.Message3 != null)
+            {
+                <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message3")
+                    }
+                </script>
+            }
+            @if (ViewBag.Message4 != null)
+            {
+                <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message4")
+                    }
+                </script>
+            }
+
+        </div>
+
+
+    </div>

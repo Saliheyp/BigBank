@@ -1,0 +1,133 @@
+﻿@using MvcBigBank.Models
+@model IEnumerable<MvcBigBank.Models.Hesap>
+
+@{
+    ViewBag.Title = "Hesaplarım";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ 
+    db_BankProjectEntities1 db = new db_BankProjectEntities1();
+    Musteri musteri = new Musteri();
+}
+
+    <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+
+                <h4>Hesaplarım</h4>
+            </header>
+            <div class="panel-body">
+                <table class="table">
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.hesapNo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ekNo)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.bakiye)
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+
+                    @foreach (var item in db.Musteri)
+                    {
+                        if (item.tcKimlik == Session["LoginUser"].ToString())
+                        {
+                            musteri = item;
+                        }
+                    }
+
+                    @foreach (var item in db.Hesap)
+                    {
+                        int temp = 0;
+                        temp = musteri.musteriID;
+                        if (item.musteriID == temp && item.aktiflik == true)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.hesapNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.ekNo)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.bakiye)
+                                </td>
+                                <td>
+                                    <a href="/Account/WithdrawMoney/@item.hesapID" class="btn btn-primary btn-xs ">Para Çek</a>
+                                </td>
+                                <td>
+                                    <a href="/Account/DepositMoney/@item.hesapID" class="btn btn-primary btn-xs ">Para Yatır</a>
+                                </td>
+                                <td>
+                                    <a href="/Account/Virman/@item.hesapID" class="btn btn-primary btn-xs ">Virman</a>
+                                </td>
+                                <td>
+                                    <a href="/Account/MoneyTransfer/@item.hesapID" class="btn btn-primary btn-xs ">Havale</a>
+                                </td>
+                                <td>
+                                    <a href="/Account/DeleteAccount/@item.hesapID" class="btn btn-primary btn-xs ">Hesap Kapat</a>
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </table>
+            </div>
+        </section>
+        @if (ViewBag.Message2 != null)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message2")
+                    }
+            </script>
+        }
+
+        @if (ViewBag.Message3 != null)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message3")
+                    }
+            </script>
+        }
+        @if (ViewBag.Message4 != null)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message4")
+                    }
+            </script>
+        }
+        @if (ViewBag.Message5 != null)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message5")
+                    }
+            </script>
+        }
+        @if (ViewBag.Message6 != null)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message6")
+                    }
+            </script>
+        }
+        @if (ViewBag.Message7 != null)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message7")
+                    }
+            </script>
+        }
+
+    </div>

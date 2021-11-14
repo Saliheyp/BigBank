@@ -1,0 +1,221 @@
+﻿@using MvcBigBank.Models
+@model Musteri
+
+@{
+    ViewBag.Title = "Güncelle";
+    Layout = "~/Views/Shared/_LandingPageLayout.cshtml";
+    db_BankProjectEntities1 db = new db_BankProjectEntities1();
+}
+
+<style type="text/css">
+    body {
+        padding-top: 90px;
+    }
+
+    .panel-login {
+        border-color: #ccc;
+        -webkit-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 2px 3px 0px rgba(0, 0, 0, 0.2);
+    }
+
+        .panel-login > .panel-heading {
+            color: #00335d;
+            background-color: #fff;
+            border-color: #fff;
+            text-align: center;
+        }
+
+            .panel-login > .panel-heading a {
+                text-decoration: none;
+                color: #666;
+                font-weight: bold;
+                font-size: 15px;
+                -webkit-transition: all 0.1s linear;
+                -moz-transition: all 0.1s linear;
+                transition: all 0.1s linear;
+            }
+
+                .panel-login > .panel-heading a.active {
+                    color: rgb(0, 162, 255);
+                    font-size: 18px;
+                }
+
+            .panel-login > .panel-heading hr {
+                margin-top: 10px;
+                margin-bottom: 0px;
+                clear: both;
+                border: 0;
+                height: 1px;
+                background-image: -webkit-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+                background-image: -moz-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+                background-image: -ms-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+                background-image: -o-linear-gradient(left, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
+            }
+
+        .panel-login input[type="text"],
+        .panel-login input[type="email"],
+        .panel-login input[type="date"],
+        .panel-login input[type="tel"],
+        .panel-login input[type="password"] {
+            height: 45px;
+            border: none;
+            border-bottom: 1px solid #f05056;
+            font-size: 16px;
+            -webkit-transition: all 0.1s linear;
+            -moz-transition: all 0.1s linear;
+            transition: all 0.1s linear;
+        }
+
+        .panel-login input:hover,
+        .panel-login input:focus {
+            outline: none;
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            border-color: #f05056;
+        }
+
+    .btn-login {
+        background-color: #59B2E0;
+        outline: none;
+        color: #fff;
+        font-size: 14px;
+        height: auto;
+        font-weight: normal;
+        padding: 14px 0;
+        text-transform: uppercase;
+        border-color: #59B2E6;
+    }
+
+        .btn-login:hover,
+        .btn-login:focus {
+            color: #fff;
+            background-color: #53A3CD;
+            border-color: #53A3CD;
+        }
+
+    .forgot-password {
+        text-decoration: underline;
+        color: #888;
+    }
+
+        .forgot-password:hover,
+        .forgot-password:focus {
+            text-decoration: underline;
+            color: #666;
+        }
+
+    .btn-register {
+        background-color: #004e95;
+        color: white !important;
+        margin-left: auto;
+        margin-right: auto;
+        width: 70%;
+        border: none;
+        border-radius: 45px;
+        height: auto;
+    }
+
+        .btn-register:hover,
+        .btn-register:focus {
+            color: #fff;
+            background-color: #1CA347;
+        }
+</style>
+
+@{ 
+    Musteri musteri = new Musteri();
+    string LoginTCKN = Session["LoginUser"].ToString();
+    foreach (var item in db.Musteri)
+    {
+        if (item.tcKimlik==LoginTCKN)
+        {
+            musteri = item;
+        }
+    }
+   
+}
+
+<div class="row" style="margin-top:80px;">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="panel panel-login">
+
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <fieldset>
+                            @using (Html.BeginForm("Update", "Home", FormMethod.Post, new { @id = "frmUpdate" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="form-horizontal">
+
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.ad, new { @Value = musteri.ad, @type = "text", @placeholder = "Adınızı Giriniz ", @class = "form-control", @onkeypress = "return (event.charCode != 46 && event.charCode > 31 && (event.charCode < 48 || event.charCode > 57))", @maxlength = "32", @pattern = ".{1,32}" })
+                                            @Html.ValidationMessageFor(model => model.ad, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.soyad, new { @Value = musteri.soyad, @type = "text", @placeholder = "Soyadınızı Giriniz ", @class = "form-control", @onkeypress = "return (event.charCode != 46 && event.charCode > 31 && (event.charCode < 48 || event.charCode > 57))", @maxlength = "32", @pattern = ".{1,32}" })
+                                            @Html.ValidationMessageFor(model => model.soyad, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.telefon, new { @Value = musteri.telefon, @placeholder = "Telefon Numaranızı Giriniz ", @class = "form-control", @type = "tel", @maxlength = "10", @minlength = "10", @onkeypress = "return event.charCode >=48 && event.charCode <=57" })
+                                            @Html.ValidationMessageFor(model => model.telefon, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.eMail, new { @Value = musteri.eMail, @placeholder = "Mail Adresinizi Giriniz ", @type = "email", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.eMail, "", new { @class = "text-danger" })
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @Html.TextBoxFor(model => model.adres, new { @Value = musteri.adres, @type = "text", @placeholder = "Adresinizi Giriniz ", @class = "form-control" })
+                                            @Html.ValidationMessageFor(model => model.adres, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-10">
+                                            @Html.PasswordFor(model => model.sifre, new { @Value = musteri.sifre, @class = "form-control", @type = "password", @placeholder = "6 Haneli Şifre Giriniz ", @maxlength = "6", @pattern = ".{6}" })
+                                            @Html.ValidationMessageFor(model => model.sifre, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Güncelle" class="btn btn-primary btn-lg btn-block" style="background-color:#004e95; color:white !important; position:relative; left:-90px;" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            }
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (ViewBag.Message3 != null)
+        {
+            <script type="text/javascript">
+                    window.onload = function () {
+                        alert("@ViewBag.Message3")
+                    }
+            </script>
+        }
+    </div>
+</div>

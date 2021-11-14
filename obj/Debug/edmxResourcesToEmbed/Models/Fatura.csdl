@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="faturaDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="faturaDBEntities" annotation:LazyLoadingEnabled="true">
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(faturaDBModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(faturaDBModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="sp_borcOde">
+      <Parameter Name="telNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_borcSorgula" ReturnType="Collection(Decimal)">
+      <Parameter Name="telNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_sonOdemeTarihi" ReturnType="Collection(DateTime)">
+      <Parameter Name="telNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_borcOdeme">
+      <Parameter Name="telNo" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="sysdiagrams" EntityType="faturaDBModel.sysdiagrams" />
+    <EntitySet Name="tbl_abone" EntityType="faturaDBModel.tbl_abone" />
+    <EntitySet Name="tbl_bilgi" EntityType="faturaDBModel.tbl_bilgi" />
+    <EntitySet Name="tbl_fatura" EntityType="faturaDBModel.tbl_fatura" />
+    <AssociationSet Name="FK_tbl_fatura_tbl_abone" Association="faturaDBModel.FK_tbl_fatura_tbl_abone">
+      <End Role="tbl_abone" EntitySet="tbl_abone" />
+      <End Role="tbl_fatura" EntitySet="tbl_fatura" />
+    </AssociationSet>
+    <FunctionImport Name="sp_PayBill">
+      <Parameter Name="tel" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tbl_abone">
+    <Key>
+      <PropertyRef Name="aboneID" />
+    </Key>
+    <Property Name="aboneID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="aboneNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="aboneAd" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="aboneSoyad" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="tbl_fatura" Relationship="faturaDBModel.FK_tbl_fatura_tbl_abone" FromRole="tbl_abone" ToRole="tbl_fatura" />
+  </EntityType>
+  <EntityType Name="tbl_bilgi">
+    <Key>
+      <PropertyRef Name="bilgiID" />
+    </Key>
+    <Property Name="bilgiID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="odenen" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+    <Property Name="odenenTarih" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="aboneNo" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tbl_fatura">
+    <Key>
+      <PropertyRef Name="faturaID" />
+    </Key>
+    <Property Name="faturaID" Type="Int32" Nullable="false" />
+    <Property Name="aboneID" Type="Int32" Nullable="false" />
+    <Property Name="guncelBorc" Type="Decimal" Nullable="false" Precision="6" Scale="2" />
+    <Property Name="sonOdemeTarihi" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="tbl_abone" Relationship="faturaDBModel.FK_tbl_fatura_tbl_abone" FromRole="tbl_fatura" ToRole="tbl_abone" />
+  </EntityType>
+  <Association Name="FK_tbl_fatura_tbl_abone">
+    <End Type="faturaDBModel.tbl_abone" Role="tbl_abone" Multiplicity="1" />
+    <End Type="faturaDBModel.tbl_fatura" Role="tbl_fatura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_abone">
+        <PropertyRef Name="aboneID" />
+      </Principal>
+      <Dependent Role="tbl_fatura">
+        <PropertyRef Name="aboneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

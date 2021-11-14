@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="db_BankProjectModelStoreContainer" CdmEntityContainer="db_BankProjectEntities1">
+    <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="db_BankProjectModel.Store.sp_alterdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="db_BankProjectModel.Store.sp_creatediagram" />
+    <FunctionImportMapping FunctionImportName="sp_Deactivate" FunctionName="db_BankProjectModel.Store.sp_Deactivate" />
+    <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="db_BankProjectModel.Store.sp_dropdiagram" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="db_BankProjectModel.Store.sp_helpdiagramdefinition" />
+    <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="db_BankProjectModel.Store.sp_helpdiagrams" />
+    <FunctionImportMapping FunctionImportName="sp_HesapOlustur" FunctionName="db_BankProjectModel.Store.sp_HesapOlustur" />
+    <FunctionImportMapping FunctionImportName="sp_moneyDrawInOut" FunctionName="db_BankProjectModel.Store.sp_moneyDrawInOut" />
+    <FunctionImportMapping FunctionImportName="sp_moneyTransfer" FunctionName="db_BankProjectModel.Store.sp_moneyTransfer" />
+    <FunctionImportMapping FunctionImportName="sp_payTheBill" FunctionName="db_BankProjectModel.Store.sp_payTheBill" />
+    <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="db_BankProjectModel.Store.sp_renamediagram" />
+    <FunctionImportMapping FunctionImportName="sp_update" FunctionName="db_BankProjectModel.Store.sp_update" />
+    <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="db_BankProjectModel.Store.sp_upgraddiagrams" />
+    <EntitySetMapping Name="Hesap">
+      <EntityTypeMapping TypeName="db_BankProjectModel.Hesap">
+        <MappingFragment StoreEntitySet="Hesap">
+          <ScalarProperty Name="ekNo" ColumnName="ekNo" />
+          <ScalarProperty Name="aktiflik" ColumnName="aktiflik" />
+          <ScalarProperty Name="bakiye" ColumnName="bakiye" />
+          <ScalarProperty Name="acilmaZamani" ColumnName="acilmaZamani" />
+          <ScalarProperty Name="hesapNo" ColumnName="hesapNo" />
+          <ScalarProperty Name="musteriID" ColumnName="musteriID" />
+          <ScalarProperty Name="hesapID" ColumnName="hesapID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Islemler">
+      <EntityTypeMapping TypeName="db_BankProjectModel.Islemler">
+        <MappingFragment StoreEntitySet="Islemler">
+          <ScalarProperty Name="islemTuru" ColumnName="islemTuru" />
+          <ScalarProperty Name="islemID" ColumnName="islemID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Musteri">
+      <EntityTypeMapping TypeName="db_BankProjectModel.Musteri">
+        <MappingFragment StoreEntitySet="Musteri">
+          <ScalarProperty Name="adres" ColumnName="adres" />
+          <ScalarProperty Name="eMail" ColumnName="eMail" />
+          <ScalarProperty Name="telefon" ColumnName="telefon" />
+          <ScalarProperty Name="dogumTarihi" ColumnName="dogumTarihi" />
+          <ScalarProperty Name="sifre" ColumnName="sifre" />
+          <ScalarProperty Name="soyad" ColumnName="soyad" />
+          <ScalarProperty Name="ad" ColumnName="ad" />
+          <ScalarProperty Name="tcKimlik" ColumnName="tcKimlik" />
+          <ScalarProperty Name="musteriNo" ColumnName="musteriNo" />
+          <ScalarProperty Name="musteriID" ColumnName="musteriID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ParaTransferleri">
+      <EntityTypeMapping TypeName="db_BankProjectModel.ParaTransferleri">
+        <MappingFragment StoreEntitySet="ParaTransferleri">
+          <ScalarProperty Name="islemID" ColumnName="islemID" />
+          <ScalarProperty Name="gonderimTarihi" ColumnName="gonderimTarihi" />
+          <ScalarProperty Name="miktar" ColumnName="miktar" />
+          <ScalarProperty Name="gonderenHesapID" ColumnName="gonderenHesapID" />
+          <ScalarProperty Name="aliciHesapNo" ColumnName="aliciHesapNo" />
+          <ScalarProperty Name="TransferID" ColumnName="TransferID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="db_BankProjectModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExceptionLog">
+      <EntityTypeMapping TypeName="db_BankProjectModel.ExceptionLog">
+        <MappingFragment StoreEntitySet="ExceptionLog">
+          <ScalarProperty Name="eventTime" ColumnName="eventTime" />
+          <ScalarProperty Name="detailDescription" ColumnName="detailDescription" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,70 @@
+﻿@using MvcBigBank.Models
+@model Hesap
+@{
+    ViewBag.Title = "Para Yatırma";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+    <div class="col-lg-12">
+        <section class="panel" style="margin-left:40px; margin-top:90px">
+            <header class="panel-heading"  style="text-align:center;"">
+                    PARA YATIRMA
+            </header>
+                
+            <div class="panel-body" style="text-align:center; vertical-align:middle; align-items:center; justify-content:center">
+                @using (Html.BeginForm("DepositMoney", "Account", FormMethod.Post, new { @id = "frmDepositMoney" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group" style="display:inline;">
+                        <div style="display:inline;">
+                            @Html.TextBoxFor(model => model.bakiye, new { @style = "border: none; border-bottom: 1px solid #f05056; width:250px; margin-top:10px;", @placeholder = "Hesap Bakiyesi ", @onkeypress = "return event.charCode >=48 && event.charCode <=57", @maxlength = "6", htmlAttributes = new { @class = "form-control", id = "balance" } })
+                            @Html.ValidationMessageFor(model => model.bakiye, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <br />
+                    <br />
+                    <br />  
+
+                    <div class="form-group">
+                        <div class="row justify-content-center">
+                            <div class="col-xs-6 col-xs-offset-4" style="margin-top:20px; ">
+                                <input type="submit" value="Para Yatırma" class="btn btn-info btn-xs btn-block" style="font-size:large; background-color:#004e95 " />
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </section>
+    </div>
+
+
+
+@*<div class="form-group">
+    <section class="panel" style="margin-left:40px; margin-top:90px">
+        <header class="panel-heading" style="text-align:center;">
+            PARA YATIRMA
+        </header>
+        <div class="panel-body" style="height:21rem; text-align:center; vertical-align:middle; align-items:center; justify-content:center">
+            <h5>YATIRMAK İSTEDİĞİNİZ TUTARI GİRİNİZ</h5>
+            <div style="margin-top:10px;">
+                <label>Tutar</label>
+                <div style="display:inline;">
+                    @Html.TextBoxFor(model => model.bakiye, new { htmlAttributes = new { @class = "form-control", id = "balance", maxlength = "10" } })
+                    @Html.ValidationMessageFor(model => model.bakiye, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row justify-content-center">
+                    <div class="col-xs-6 col-xs-offset-4" style="margin-top:20px; ">
+                        <input type="submit" value="Para Yatırma" class="btn btn-info btn-xs btn-block" style="font-size:large; " />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+</div>*@

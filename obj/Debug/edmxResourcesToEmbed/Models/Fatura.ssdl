@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="faturaDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="tbl_abone">
+    <Key>
+      <PropertyRef Name="aboneID" />
+    </Key>
+    <Property Name="aboneID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="aboneNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="aboneAd" Type="nvarchar" MaxLength="20" Nullable="false" />
+    <Property Name="aboneSoyad" Type="nvarchar" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_bilgi">
+    <Key>
+      <PropertyRef Name="bilgiID" />
+    </Key>
+    <Property Name="bilgiID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="odenen" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+    <Property Name="odenenTarih" Type="datetime" Nullable="false" />
+    <Property Name="aboneNo" Type="nvarchar" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tbl_fatura">
+    <Key>
+      <PropertyRef Name="faturaID" />
+    </Key>
+    <Property Name="faturaID" Type="int" Nullable="false" />
+    <Property Name="aboneID" Type="int" Nullable="false" />
+    <Property Name="guncelBorc" Type="decimal" Precision="6" Scale="2" Nullable="false" />
+    <Property Name="sonOdemeTarihi" Type="date" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_tbl_fatura_tbl_abone">
+    <End Role="tbl_abone" Type="Self.tbl_abone" Multiplicity="1" />
+    <End Role="tbl_fatura" Type="Self.tbl_fatura" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tbl_abone">
+        <PropertyRef Name="aboneID" />
+      </Principal>
+      <Dependent Role="tbl_fatura">
+        <PropertyRef Name="aboneID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_borcOde" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="telNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_borcOdeme" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="telNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_borcSorgula" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="telNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_PayBill" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="tel" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_sonOdemeTarihi" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="telNo" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="faturaDBModelStoreContainer">
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_abone" EntityType="Self.tbl_abone" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_bilgi" EntityType="Self.tbl_bilgi" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="tbl_fatura" EntityType="Self.tbl_fatura" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_tbl_fatura_tbl_abone" Association="Self.FK_tbl_fatura_tbl_abone">
+      <End Role="tbl_abone" EntitySet="tbl_abone" />
+      <End Role="tbl_fatura" EntitySet="tbl_fatura" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

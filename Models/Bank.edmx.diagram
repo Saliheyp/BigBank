@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="488d1b130d3c4c598982854a77e38148" Name="Diagram1">
+        <EntityTypeShape EntityType="db_BankProjectModel.Hesap" Width="1.5" PointX="3" PointY="1.125" />
+        <EntityTypeShape EntityType="db_BankProjectModel.Islemler" Width="1.5" PointX="3" PointY="5.75" />
+        <EntityTypeShape EntityType="db_BankProjectModel.Musteri" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="db_BankProjectModel.ParaTransferleri" Width="1.5" PointX="5.25" PointY="1.25" />
+        <EntityTypeShape EntityType="db_BankProjectModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="0.75" />
+        <AssociationConnector Association="db_BankProjectModel.FK_Hesap_Musteri" />
+        <AssociationConnector Association="db_BankProjectModel.FK_ParaTransferleri_Hesap" />
+        <AssociationConnector Association="db_BankProjectModel.FK_ParaTransferleri_Islemler" />
+        <EntityTypeShape EntityType="db_BankProjectModel.ExceptionLog" Width="1.5" PointX="5.375" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,42 @@
+﻿@using MvcBigBank.Models
+@model Hesap
+@{
+    ViewBag.Title = "Hesap Aç";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div>
+    <div>
+        <section class="panel" style="margin-left:40px; margin-top:90px">
+            <header class="panel-heading" style="text-align:center;">
+                YENİ HESAP AÇ
+            </header>
+            <div class="panel-body" style="text-align:center; vertical-align:middle; align-items:center; justify-content:center">
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div>
+                        <img src="~/img/wallet-icon-22.jpg" style="height:100px; width:100px; margin-bottom:20px; " />
+                    </div>
+
+                    <div class="form-group " style="display:inline">
+                        <div style="display:inline">
+
+                            @Html.TextBoxFor(model => model.bakiye, new { @style = "border: none; border-bottom: 1px solid #f05056; width:250px; margin-top:10px;", @placeholder = "Hesap Bakiyesi ", @onkeypress = "return event.charCode >=48 && event.charCode <=57", @maxlength = "10" })
+                            @Html.ValidationMessageFor(model => model.bakiye, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row justify-content-center">
+                            <div class="col-xs-6 col-xs-offset-4" style="margin-top:20px; ">
+                                <input type="submit" value="Hesap Aç" class="btn btn-info btn-xs btn-block" style="font-size:large; background-color:#004e95 " />
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>
